@@ -12,6 +12,7 @@ import { Request } from 'express';
 
 @Module({
   imports: [
+    ChatBootModule,
     LoggerModule.forRoot({
       pinoHttp: {
         formatters: {
@@ -37,7 +38,6 @@ import { Request } from 'express';
       load: [EnvConfiguration],
       validationSchema: JoiValidationSchema,
     }),
-    ChatBootModule,
   ],
 })
 export class AppModule implements NestModule {

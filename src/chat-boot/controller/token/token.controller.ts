@@ -12,11 +12,14 @@ export class TokenController {
 
   @Get()
   verifyToken(@Res() res: Response, @Req() req: Request) {
-    this.logger.error({
+    this.logger.log('init request token controller', {
       context: TokenController.name,
       body: req.body,
-      headers: req.header,
+      query: req.query,
+      params: req.params,
+      header: req.headers,
     });
+
     try {
       const accessToen = this.configService.get('token');
       if (accessToen !== req.query['hub.verify_token']) {

@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  chatBoot-whatsApp-valid:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: chat-boot-whatsapp-valid
+    container_name: chatBoot-whatsApp-valid
+    restart: always
+    ports:
+      - "${PORT}:${PORT}"
+    environment:
+      WHATSAPP_TOKEN: ${WHATSAPP_TOKEN}
+      PORT: ${PORT}

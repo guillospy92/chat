@@ -1,18 +1,19 @@
-import { Controller, Post, Req, Res } from '@nestjs/common';
+import { Controller, HttpStatus, Post, Req, Res } from '@nestjs/common';
 import { WebHookService } from '../../services/web-hook.service';
+import { Request, Response } from 'express';
 
 @Controller('chat-boot')
 export class WebHookController {
   constructor(private readonly webHookService: WebHookService) {}
 
-  @Post('web-hook')
-  public webHook(@Req() req: Request, @Res() res: Response) {
+  @Post()
+  public webHook(@Res() res: Response, @Req() req: Request): void {
     try {
       this.webHookService.readMessageChatBoot(req);
+      res.status(HttpStatus.OK).json([]);
     } catch (exception) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
-      res.status(500).send('error server');
+      console.log(exception);
+      res.status(HttpStatus.INTERNAL_SERVER_ERROR).send('error server');
     }
   }
 }

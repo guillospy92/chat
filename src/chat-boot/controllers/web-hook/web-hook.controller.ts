@@ -1,0 +1,42 @@
+import {
+  Body,
+  Controller,
+  HttpStatus,
+  Inject,
+  Post,
+  Req,
+  Res,
+} from '@nestjs/common';
+import { Logger } from 'nestjs-pino';
+import e, { Request, Response } from 'express';
+import { WebHookMessage } from 'src/chat-boot/services/strategies/contract';
+import { WhatsAppRequestDto } from '../../../dtos/whatsapp-request';
+
+@Controller('chat-boot')
+export class WebHookController {
+  constructor(
+    private readonly logger: Logger,
+    @Inject('STRATEGIES')
+    private readonly strategyMap: Map<string, WebHookMessage>,
+  ) {}
+
+  @Post()
+  async webHook(
+    @Res() res: Response,
+    @Req() req: Request,
+    @Body() whatsAppRequestDto: WhatsAppRequestDto,
+  ) {
+    try {
+      const key = whatsAppRequestDto.entry[0].changes[0].value.messages[0].type;
+      const strategy = this.strategyMap.get(key);
+      await strategy.sendMessage(whatsAppRequestDto);
+    } catch (exception) {
+      this.logger.error('error consume service webHookService', {
+        context: WebHookController.name,
+        error_message: exception.message,
+        error_stack: exception.stack,
+      });
+    }
+    res.status(HttpStatus.OK).send('EVENT_RECEIVED');
+  }
+}

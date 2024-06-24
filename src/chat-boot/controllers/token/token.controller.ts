@@ -20,15 +20,11 @@ export class TokenController {
       header: req.headers,
     });
 
-    try {
-      const accessToen = this.configService.get('token');
-      if (accessToen !== req.query['hub.verify_token']) {
-        return res.status(HttpStatus.BAD_REQUEST).send('error token invalid');
-      }
-
-      return res.status(HttpStatus.ACCEPTED).send(req.query['hub.challenge']);
-    } catch (exception) {
+    const accessToken = this.configService.get('token');
+    if (accessToken !== req.query['hub.verify_token']) {
       return res.status(HttpStatus.BAD_REQUEST).send('error token invalid');
     }
+
+    return res.status(HttpStatus.OK).send(req.query['hub.challenge']);
   }
 }

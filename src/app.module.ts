@@ -7,7 +7,7 @@ import { LoggerModule } from 'nestjs-pino';
 import {
   CORRELATION_ID_HEADER,
   CorrelationMiddleware,
-} from './correlation/correlation.middleware';
+} from './middlewares/correlation/correlation.middleware';
 import { Request } from 'express';
 
 @Module({

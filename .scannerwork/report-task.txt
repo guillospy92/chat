@@ -1,0 +1,6 @@
+projectKey=chatboot_key
+serverUrl=http://localhost:9000
+serverVersion=10.5.1.90531
+dashboardUrl=http://localhost:9000/dashboard?id=chatboot_key
+ceTaskId=8fe47ec1-fb70-46af-9b21-28de687a784a
+ceTaskUrl=http://localhost:9000/api/ce/task?id=8fe47ec1-fb70-46af-9b21-28de687a784a
